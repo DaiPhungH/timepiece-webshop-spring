@@ -1,6 +1,5 @@
-
 import { Button } from "./ui/button";
-import { ShoppingCart } from "lucide-react";
+import { Cart } from "./Cart";
 
 const Navbar = () => {
   return (
@@ -13,9 +12,7 @@ const Navbar = () => {
           <a href="/" className="hover:text-gold-500 transition-colors">Home</a>
           <a href="#products" className="hover:text-gold-500 transition-colors">Watches</a>
           <a href="#about" className="hover:text-gold-500 transition-colors">About</a>
-          <Button variant="ghost" size="icon">
-            <ShoppingCart className="h-5 w-5" />
-          </Button>
+          <Cart />
         </div>
       </div>
     </nav>

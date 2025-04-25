@@ -1,14 +1,18 @@
 
 import { Card, CardContent, CardFooter } from "./ui/card";
 import { Button } from "./ui/button";
+import { useCart } from "@/hooks/useCart";
 
 interface ProductCardProps {
+  id: string;
   image: string;
   name: string;
   price: number;
 }
 
-const ProductCard = ({ image, name, price }: ProductCardProps) => {
+const ProductCard = ({ id, image, name, price }: ProductCardProps) => {
+  const { addItem, isLoading } = useCart();
+
   return (
     <Card className="overflow-hidden group">
       <CardContent className="p-0">
@@ -23,7 +27,12 @@ const ProductCard = ({ image, name, price }: ProductCardProps) => {
       <CardFooter className="p-4 flex flex-col items-start gap-2">
         <h3 className="font-display text-lg">{name}</h3>
         <p className="text-gray-600">${price.toLocaleString()}</p>
-        <Button variant="outline" className="w-full hover:bg-gold-500 hover:text-white transition-colors">
+        <Button 
+          variant="outline" 
+          className="w-full hover:bg-gold-500 hover:text-white transition-colors"
+          onClick={() => addItem(id)}
+          disabled={isLoading}
+        >
           Add to Cart
         </Button>
       </CardFooter>
