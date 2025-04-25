@@ -31,32 +31,49 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) return;
 
-    const { data, error } = await supabase
-      .from('cart_items')
-      .select(`
-        id,
-        product_id,
-        quantity,
-        products (
-          name,
-          price,
-          image
-        )
-      `);
+    try {
+      // First get the cart items
+      const { data: cartItems, error: cartError } = await supabase
+        .from('cart_items')
+        .select('id, product_id, quantity');
+        
+      if (cartError) {
+        console.error('Error fetching cart:', cartError);
+        return;
+      }
 
-    if (error) {
-      console.error('Error fetching cart:', error);
-      return;
+      if (!cartItems || cartItems.length === 0) {
+        setItems([]);
+        return;
+      }
+
+      // Then get product details for each item
+      const cartWithProducts = await Promise.all(cartItems.map(async (item) => {
+        const { data: product, error: productError } = await supabase
+          .from('products')
+          .select('name, price, image')
+          .eq('id', item.product_id)
+          .single();
+          
+        if (productError) {
+          console.error(`Error fetching product ${item.product_id}:`, productError);
+          return null;
+        }
+
+        return {
+          id: item.id,
+          product_id: item.product_id,
+          quantity: item.quantity,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+        };
+      }));
+
+      setItems(cartWithProducts.filter(Boolean) as CartItem[]);
+    } catch (error) {
+      console.error('Error fetching cart data:', error);
     }
-
-    setItems(data.map(item => ({
-      id: item.id,
-      product_id: item.product_id,
-      quantity: item.quantity,
-      name: item.products.name,
-      price: item.products.price,
-      image: item.products.image,
-    })));
   };
 
   useEffect(() => {
@@ -83,64 +100,89 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const { data, error } = await supabase
-      .from('cart_items')
-      .insert({ product_id: productId })
-      .select()
-      .single();
+    try {
+      // Make sure to include user_id when inserting a cart item
+      const { data, error } = await supabase
+        .from('cart_items')
+        .insert({ 
+          product_id: productId,
+          user_id: session.user.id 
+        })
+        .select()
+        .single();
 
-    if (error) {
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Could not add item to cart",
+          variant: "destructive",
+        });
+        console.error('Error adding item to cart:', error);
+      } else {
+        toast({
+          title: "Success",
+          description: "Item added to cart",
+        });
+        fetchCartItems();
+      }
+    } catch (error) {
+      console.error('Error in addItem:', error);
       toast({
         title: "Error",
-        description: "Could not add item to cart",
+        description: "An unexpected error occurred",
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Success",
-        description: "Item added to cart",
-      });
-      fetchCartItems();
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const removeItem = async (cartItemId: string) => {
     setIsLoading(true);
-    const { error } = await supabase
-      .from('cart_items')
-      .delete()
-      .eq('id', cartItemId);
+    try {
+      const { error } = await supabase
+        .from('cart_items')
+        .delete()
+        .eq('id', cartItemId);
 
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Could not remove item from cart",
-        variant: "destructive",
-      });
-    } else {
-      fetchCartItems();
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Could not remove item from cart",
+          variant: "destructive",
+        });
+      } else {
+        fetchCartItems();
+      }
+    } catch (error) {
+      console.error('Error in removeItem:', error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const updateQuantity = async (cartItemId: string, quantity: number) => {
     setIsLoading(true);
-    const { error } = await supabase
-      .from('cart_items')
-      .update({ quantity })
-      .eq('id', cartItemId);
+    try {
+      const { error } = await supabase
+        .from('cart_items')
+        .update({ quantity })
+        .eq('id', cartItemId);
 
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Could not update quantity",
-        variant: "destructive",
-      });
-    } else {
-      fetchCartItems();
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Could not update quantity",
+          variant: "destructive",
+        });
+      } else {
+        fetchCartItems();
+      }
+    } catch (error) {
+      console.error('Error in updateQuantity:', error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
