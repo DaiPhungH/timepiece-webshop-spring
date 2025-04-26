@@ -101,7 +101,7 @@ export function Cart() {
               <span>${total.toLocaleString()}</span>
             </div>
             <Button 
-              className="w-full bg-gold-500 hover:bg-gold-600"
+              className="w-full bg-gold-500 hover:bg-gold-600 h-14 text-base" // Increased height and text size
               onClick={handleCheckout}
             >
               Checkout
