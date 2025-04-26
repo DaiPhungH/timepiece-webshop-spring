@@ -4,10 +4,35 @@ import { ScrollArea } from "./ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
+import { useToast } from "@/hooks/use-toast";
 
 export function Cart() {
   const { items, removeItem, updateQuantity } = useCart();
+  const { toast } = useToast();
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleRemoveItem = (id: string, name: string) => {
+    removeItem(id);
+    toast({
+      title: "Item Removed",
+      description: `${name} has been removed from your cart`,
+    });
+  };
+
+  const handleUpdateQuantity = (id: string, quantity: number, name: string) => {
+    updateQuantity(id, quantity);
+    toast({
+      title: "Quantity Updated",
+      description: `${name}'s quantity has been updated to ${quantity}`,
+    });
+  };
+
+  const handleCheckout = () => {
+    toast({
+      title: "Order Placed!",
+      description: "Thank you for your purchase. We'll process your order soon.",
+    });
+  };
 
   return (
     <Sheet>
@@ -41,7 +66,7 @@ export function Cart() {
                         variant="outline"
                         size="icon"
                         className="h-8 w-8"
-                        onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                        onClick={() => handleUpdateQuantity(item.id, Math.max(1, item.quantity - 1), item.name)}
                       >
                         -
                       </Button>
@@ -50,7 +75,7 @@ export function Cart() {
                         variant="outline"
                         size="icon"
                         className="h-8 w-8"
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        onClick={() => handleUpdateQuantity(item.id, item.quantity + 1, item.name)}
                       >
                         +
                       </Button>
@@ -58,7 +83,7 @@ export function Cart() {
                         variant="ghost"
                         size="sm"
                         className="ml-auto text-red-500 hover:text-red-600"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => handleRemoveItem(item.id, item.name)}
                       >
                         Remove
                       </Button>
@@ -75,7 +100,10 @@ export function Cart() {
               <span>Total</span>
               <span>${total.toLocaleString()}</span>
             </div>
-            <Button className="w-full bg-gold-500 hover:bg-gold-600">
+            <Button 
+              className="w-full bg-gold-500 hover:bg-gold-600"
+              onClick={handleCheckout}
+            >
               Checkout
             </Button>
           </div>
