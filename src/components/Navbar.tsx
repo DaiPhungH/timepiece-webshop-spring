@@ -44,7 +44,7 @@ const Navbar = () => {
         </a>
         <div className="flex items-center gap-8">
           <a href="/" className="hover:text-gold-500 transition-colors">Home</a>
-          <a href="#products" className="hover:text-gold-500 transition-colors">Watches</a>
+          <a href="/browse" className="hover:text-gold-500 transition-colors">Browse</a>
           <a href="#about" className="hover:text-gold-500 transition-colors">About</a>
           {user ? (
             <>

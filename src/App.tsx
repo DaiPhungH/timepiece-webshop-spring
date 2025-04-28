@@ -8,6 +8,7 @@ import { CartProvider } from "@/hooks/useCart";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import BrowseProducts from "./pages/BrowseProducts";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/browse" element={<BrowseProducts />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
