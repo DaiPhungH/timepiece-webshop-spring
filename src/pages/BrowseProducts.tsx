@@ -18,6 +18,17 @@ const categories = [
   { id: "modern", name: "Modern" }
 ];
 
+// Define the Product interface to match our database schema
+interface Product {
+  id: string;
+  image: string;
+  name: string;
+  price: number;
+  category: string;
+  created_at: string;
+  updated_at: string;
+}
+
 const BrowseProducts = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
