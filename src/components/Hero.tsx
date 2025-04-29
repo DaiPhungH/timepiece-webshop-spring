@@ -9,14 +9,14 @@ const Hero = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-2xl">
           <h1 className="font-display text-5xl md:text-7xl mb-6">
-            Timeless Elegance on Your Wrist
+            Vẻ Đẹp Vượt Thời Gian Trên Cổ Tay Bạn
           </h1>
           <p className="text-lg mb-8 text-gray-200">
-            Discover our collection of luxury timepieces that combine traditional craftsmanship with modern design.
+            Khám phá bộ sưu tập đồng hồ sang trọng của chúng tôi, kết hợp giữa kỹ thuật chế tác truyền thống và thiết kế hiện đại.
           </p>
           <Link to="/browse">
             <Button className="bg-gold-500 hover:bg-gold-600 text-black">
-              Explore Collection
+              Khám Phá Bộ Sưu Tập
             </Button>
           </Link>
         </div>

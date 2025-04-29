@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,11 +14,11 @@ import { Link } from "react-router-dom";
 
 // Product categories
 const categories = [
-  { id: "all", name: "All Watches" },
-  { id: "luxury", name: "Luxury" },
-  { id: "classic", name: "Classic" },
-  { id: "sport", name: "Sport" },
-  { id: "modern", name: "Modern" }
+  { id: "all", name: "Tất Cả" },
+  { id: "luxury", name: "Cao Cấp" },
+  { id: "classic", name: "Cổ Điển" },
+  { id: "sport", name: "Thể Thao" },
+  { id: "modern", name: "Hiện Đại" }
 ];
 
 // Define the Product interface to match our database schema
@@ -74,10 +75,10 @@ const BrowseProducts = () => {
       
       <div className="container mx-auto px-4 pt-24 pb-12 flex-grow">
         <header className="mb-12">
-          <h1 className="font-display text-4xl mb-3 text-center">Browse Our Collection</h1>
+          <h1 className="font-display text-4xl mb-3 text-center">Khám Phá Bộ Sưu Tập</h1>
           <p className="text-center text-gray-500 max-w-2xl mx-auto">
-            Discover our exquisite selection of timepieces, crafted with precision and designed for elegance.
-            Find the perfect watch to complement your style.
+            Khám phá bộ sưu tập đồng hồ tinh tế của chúng tôi, được chế tác với độ chính xác và thiết kế để tạo nên sự thanh lịch.
+            Tìm chiếc đồng hồ hoàn hảo để bổ sung cho phong cách của bạn.
           </p>
         </header>
         
@@ -86,7 +87,7 @@ const BrowseProducts = () => {
           <div className="relative w-full md:max-w-md">
             <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
             <Input
-              placeholder="Search watches..."
+              placeholder="Tìm kiếm đồng hồ..."
               className="pl-10"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -96,13 +97,13 @@ const BrowseProducts = () => {
           <div className="flex items-center gap-4 w-full md:w-auto">
             <Select value={sortOrder} onValueChange={setSortOrder}>
               <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Sort by" />
+                <SelectValue placeholder="Sắp xếp theo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="newest">Newest First</SelectItem>
-                <SelectItem value="oldest">Oldest First</SelectItem>
-                <SelectItem value="price_low">Price: Low to High</SelectItem>
-                <SelectItem value="price_high">Price: High to Low</SelectItem>
+                <SelectItem value="newest">Mới Nhất</SelectItem>
+                <SelectItem value="oldest">Cũ Nhất</SelectItem>
+                <SelectItem value="price_low">Giá: Thấp đến Cao</SelectItem>
+                <SelectItem value="price_high">Giá: Cao đến Thấp</SelectItem>
               </SelectContent>
             </Select>
             
@@ -183,21 +184,21 @@ const BrowseProducts = () => {
                                 {product.category}
                               </span>
                               <span className="text-xs text-gray-500">
-                                Added {new Date(product.created_at).toLocaleDateString()}
+                                Thêm vào ngày {new Date(product.created_at).toLocaleDateString()}
                               </span>
                             </div>
                             <p className="text-gray-600 mb-6">
-                              A premium timepiece crafted with exquisite attention to detail, 
-                              featuring precision mechanics and elegant design.
+                              Chiếc đồng hồ cao cấp được chế tác với sự chú ý đặc biệt đến từng chi tiết, 
+                              với cơ chế chính xác và thiết kế thanh lịch.
                             </p>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-xl font-semibold">${product.price.toLocaleString()}</span>
+                            <span className="text-xl font-semibold">{product.price.toLocaleString()} VNĐ</span>
                             <Button 
                               onClick={() => console.log(`Add to cart: ${product.id}`)}
                               className="bg-gold-500 hover:bg-gold-600 text-white"
                             >
-                              Add to Cart
+                              Thêm vào giỏ
                             </Button>
                           </div>
                         </div>
@@ -209,14 +210,14 @@ const BrowseProducts = () => {
                 // No products found
                 <div className="text-center py-20">
                   <Watch className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-xl font-medium mb-2">No watches found</h3>
-                  <p className="text-gray-500">Try a different category or search term</p>
+                  <h3 className="text-xl font-medium mb-2">Không tìm thấy đồng hồ</h3>
+                  <p className="text-gray-500">Hãy thử danh mục khác hoặc từ khóa tìm kiếm khác</p>
                 </div>
               )}
 
               {filteredProducts && filteredProducts.length > 0 && (
                 <div className="mt-12 text-center text-gray-500">
-                  Showing {filteredProducts.length} {filteredProducts.length === 1 ? 'watch' : 'watches'}
+                  Hiển thị {filteredProducts.length} {filteredProducts.length === 1 ? 'đồng hồ' : 'đồng hồ'}
                 </div>
               )}
             </TabsContent>

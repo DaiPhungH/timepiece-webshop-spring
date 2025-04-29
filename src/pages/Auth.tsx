@@ -27,8 +27,8 @@ const Auth = () => {
         });
         if (error) throw error;
         toast({
-          title: "Success",
-          description: "Please check your email to verify your account.",
+          title: "Thành công",
+          description: "Vui lòng kiểm tra email của bạn để xác minh tài khoản.",
         });
       } else {
         const { error } = await supabase.auth.signInWithPassword({
@@ -40,7 +40,7 @@ const Auth = () => {
       }
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: "Lỗi",
         description: error.message,
         variant: "destructive",
       });
@@ -53,11 +53,11 @@ const Auth = () => {
     <div className="min-h-screen flex items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>{isSignUp ? "Create Account" : "Welcome Back"}</CardTitle>
+          <CardTitle>{isSignUp ? "Tạo Tài Khoản" : "Chào Mừng Trở Lại"}</CardTitle>
           <CardDescription>
             {isSignUp
-              ? "Sign up to start shopping"
-              : "Sign in to access your account"}
+              ? "Đăng ký để bắt đầu mua sắm"
+              : "Đăng nhập để truy cập tài khoản của bạn"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -74,7 +74,7 @@ const Auth = () => {
             <div className="space-y-2">
               <Input
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -86,10 +86,10 @@ const Auth = () => {
               disabled={isLoading}
             >
               {isLoading
-                ? "Loading..."
+                ? "Đang xử lý..."
                 : isSignUp
-                ? "Create Account"
-                : "Sign In"}
+                ? "Tạo Tài Khoản"
+                : "Đăng Nhập"}
             </Button>
             <Button
               type="button"
@@ -98,8 +98,8 @@ const Auth = () => {
               onClick={() => setIsSignUp(!isSignUp)}
             >
               {isSignUp
-                ? "Already have an account? Sign in"
-                : "Don't have an account? Sign up"}
+                ? "Đã có tài khoản? Đăng nhập"
+                : "Chưa có tài khoản? Đăng ký"}
             </Button>
           </form>
         </CardContent>

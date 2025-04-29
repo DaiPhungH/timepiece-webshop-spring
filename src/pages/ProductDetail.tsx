@@ -76,8 +76,8 @@ const ProductDetail = () => {
     
     await addItem(product.id);
     toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart`,
+      title: "Đã thêm vào giỏ hàng",
+      description: `${product.name} đã được thêm vào giỏ hàng của bạn`,
     });
   };
 
@@ -109,10 +109,10 @@ const ProductDetail = () => {
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <div className="flex-grow container mx-auto px-4 pt-24 pb-12 flex flex-col items-center justify-center">
-          <h1 className="text-3xl font-display mb-4">Product Not Found</h1>
-          <p className="text-gray-500 mb-8">The product you're looking for doesn't exist or has been removed.</p>
+          <h1 className="text-3xl font-display mb-4">Không Tìm Thấy Sản Phẩm</h1>
+          <p className="text-gray-500 mb-8">Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
           <Link to="/browse">
-            <Button>Return to Browse</Button>
+            <Button>Quay Lại Trang Sản Phẩm</Button>
           </Link>
         </div>
         <Footer />
@@ -137,13 +137,13 @@ const ProductDetail = () => {
         <Breadcrumb className="mb-8">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <BreadcrumbLink href="/">Trang Chủ</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>
               <ChevronRight className="h-4 w-4" />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/browse">Browse</BreadcrumbLink>
+              <BreadcrumbLink href="/browse">Sản Phẩm</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>
               <ChevronRight className="h-4 w-4" />
@@ -184,7 +184,7 @@ const ProductDetail = () => {
                         <AspectRatio ratio={1/1}>
                           <img 
                             src={img} 
-                            alt={`${product.name} view ${index + 1}`} 
+                            alt={`${product.name} góc nhìn ${index + 1}`} 
                             className="w-full h-full object-cover"
                           />
                         </AspectRatio>
@@ -203,7 +203,7 @@ const ProductDetail = () => {
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="flex items-center gap-2">
                     <ImageIcon className="h-4 w-4" />
-                    View Fullscreen
+                    Xem Toàn Màn Hình
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-screen max-w-[90vw] p-0" align="center">
@@ -223,19 +223,23 @@ const ProductDetail = () => {
           <div className="space-y-6">
             <div>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm uppercase">
-                {product.category}
+                {product.category === 'luxury' ? 'Cao Cấp' : 
+                 product.category === 'classic' ? 'Cổ Điển' : 
+                 product.category === 'sport' ? 'Thể Thao' : 
+                 product.category === 'modern' ? 'Hiện Đại' : 
+                 product.category}
               </span>
             </div>
             <h1 className="text-4xl font-display">{product.name}</h1>
             <div className="flex items-center gap-2">
-              <span className="text-2xl font-semibold">${product.price.toLocaleString()}</span>
+              <span className="text-2xl font-semibold">{product.price.toLocaleString()} VNĐ</span>
             </div>
             
             <div className="border-t border-b py-6 my-6">
               <p className="text-gray-600">
-                This exquisite timepiece embodies the pinnacle of watchmaking craftsmanship. 
-                Featuring precision engineering, premium materials, and timeless design, 
-                it's a statement of elegance that will elevate any outfit or occasion.
+                Chiếc đồng hồ tinh xảo này thể hiện đỉnh cao của nghề làm đồng hồ. 
+                Với kỹ thuật chính xác, vật liệu cao cấp, và thiết kế vượt thời gian, 
+                đây là một tuyên bố về sự thanh lịch sẽ nâng tầm bất kỳ trang phục hoặc dịp nào.
               </p>
             </div>
 
@@ -244,13 +248,13 @@ const ProductDetail = () => {
               disabled={isAddingToCart}
               className="w-full md:w-auto px-8 py-6 bg-gold-500 hover:bg-gold-600 text-white"
             >
-              {isAddingToCart ? "Adding to Cart..." : "Add to Cart"}
+              {isAddingToCart ? "Đang thêm vào giỏ..." : "Thêm Vào Giỏ Hàng"}
             </Button>
 
             <div className="flex items-center mt-6 space-x-6">
               <div className="flex items-center">
                 <Eye className="w-5 h-5 mr-2 text-gray-500" />
-                <span className="text-gray-500 text-sm">15 people viewing</span>
+                <span className="text-gray-500 text-sm">15 người đang xem</span>
               </div>
             </div>
           </div>
@@ -261,55 +265,55 @@ const ProductDetail = () => {
           <Tabs defaultValue="details" className="w-full">
             <TabsList className="w-full justify-start border-b mb-0 rounded-none bg-transparent">
               <TabsTrigger value="details" className="data-[state=active]:border-b-2 data-[state=active]:border-gold-500 rounded-none">
-                Details
+                Chi Tiết
               </TabsTrigger>
               <TabsTrigger value="specs" className="data-[state=active]:border-b-2 data-[state=active]:border-gold-500 rounded-none">
-                Specifications
+                Thông Số Kỹ Thuật
               </TabsTrigger>
               <TabsTrigger value="shipping" className="data-[state=active]:border-b-2 data-[state=active]:border-gold-500 rounded-none">
-                Shipping & Returns
+                Vận Chuyển & Đổi Trả
               </TabsTrigger>
             </TabsList>
             <TabsContent value="details" className="pt-6">
-              <h3 className="text-xl font-bold mb-4">Product Details</h3>
+              <h3 className="text-xl font-bold mb-4">Chi Tiết Sản Phẩm</h3>
               <p className="mb-4">
-                This luxury timepiece represents the pinnacle of watchmaking craftsmanship. 
-                Combining traditional techniques with modern innovation, it offers unparalleled 
-                precision and style.
+                Chiếc đồng hồ cao cấp này đại diện cho đỉnh cao của nghề làm đồng hồ. 
+                Kết hợp kỹ thuật truyền thống với đổi mới hiện đại, nó mang đến độ chính xác 
+                và phong cách không gì sánh được.
               </p>
               <p>
-                The elegant design features a carefully proportioned case that sits comfortably 
-                on the wrist, complemented by a premium strap made from the finest materials. 
-                Every detail has been meticulously considered to create a watch that is both 
-                functional and beautiful.
+                Thiết kế thanh lịch có vỏ được cân đối cẩn thận nằm thoải mái trên cổ tay, 
+                được bổ sung bằng dây đeo cao cấp được làm từ vật liệu tốt nhất. 
+                Mọi chi tiết đều được cân nhắc kỹ lưỡng để tạo ra một chiếc đồng hồ 
+                vừa thực dụng vừa đẹp.
               </p>
             </TabsContent>
             <TabsContent value="specs" className="pt-6">
-              <h3 className="text-xl font-bold mb-4">Specifications</h3>
+              <h3 className="text-xl font-bold mb-4">Thông Số Kỹ Thuật</h3>
               <ul className="list-disc pl-5 space-y-2">
-                <li>Movement: Swiss Automatic</li>
-                <li>Case Material: 316L Stainless Steel</li>
-                <li>Water Resistance: 100m</li>
-                <li>Diameter: 40mm</li>
-                <li>Thickness: 11.5mm</li>
-                <li>Crystal: Sapphire with anti-reflective coating</li>
-                <li>Power Reserve: 42 hours</li>
+                <li>Bộ máy: Tự động Thụy Sĩ</li>
+                <li>Vật liệu vỏ: Thép không gỉ 316L</li>
+                <li>Khả năng chống nước: 100m</li>
+                <li>Đường kính: 40mm</li>
+                <li>Độ dày: 11.5mm</li>
+                <li>Kính: Sapphire với lớp phủ chống phản chiếu</li>
+                <li>Dự trữ năng lượng: 42 giờ</li>
               </ul>
             </TabsContent>
             <TabsContent value="shipping" className="pt-6">
-              <h3 className="text-xl font-bold mb-4">Shipping & Returns</h3>
+              <h3 className="text-xl font-bold mb-4">Vận Chuyển & Đổi Trả</h3>
               <p className="mb-4">
-                We offer worldwide shipping with full insurance and tracking. Delivery times vary by region:
+                Chúng tôi cung cấp dịch vụ vận chuyển toàn cầu với bảo hiểm đầy đủ và theo dõi. Thời gian giao hàng thay đổi theo khu vực:
               </p>
               <ul className="list-disc pl-5 space-y-2 mb-4">
-                <li>North America: 2-3 business days</li>
-                <li>Europe: 3-5 business days</li>
-                <li>Asia & Oceania: 5-7 business days</li>
-                <li>Rest of world: 7-10 business days</li>
+                <li>Bắc Mỹ: 2-3 ngày làm việc</li>
+                <li>Châu Âu: 3-5 ngày làm việc</li>
+                <li>Châu Á & Châu Đại Dương: 5-7 ngày làm việc</li>
+                <li>Các khu vực khác: 7-10 ngày làm việc</li>
               </ul>
               <p>
-                Returns are accepted within 30 days of delivery for unworn items in original packaging. 
-                Please contact our customer service team to initiate a return.
+                Chấp nhận đổi trả trong vòng 30 ngày kể từ ngày giao hàng cho các sản phẩm chưa đeo trong bao bì gốc.
+                Vui lòng liên hệ với đội ngũ dịch vụ khách hàng của chúng tôi để bắt đầu việc đổi trả.
               </p>
             </TabsContent>
           </Tabs>

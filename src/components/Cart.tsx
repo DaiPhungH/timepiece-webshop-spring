@@ -16,23 +16,23 @@ export function Cart() {
   const handleRemoveItem = (id: string, name: string) => {
     removeItem(id);
     toast({
-      title: "Item Removed",
-      description: `${name} has been removed from your cart`,
+      title: "Đã xóa sản phẩm",
+      description: `${name} đã được xóa khỏi giỏ hàng của bạn`,
     });
   };
 
   const handleUpdateQuantity = (id: string, quantity: number, name: string) => {
     updateQuantity(id, quantity);
     toast({
-      title: "Quantity Updated",
-      description: `${name}'s quantity has been updated to ${quantity}`,
+      title: "Đã cập nhật số lượng",
+      description: `Số lượng ${name} đã được cập nhật thành ${quantity}`,
     });
   };
 
   const handleCheckout = () => {
     toast({
-      title: "Order Placed!",
-      description: "Thank you for your purchase. We'll process your order soon.",
+      title: "Đặt hàng thành công!",
+      description: "Cảm ơn bạn đã mua hàng. Chúng tôi sẽ xử lý đơn hàng của bạn sớm.",
     });
   };
 
@@ -50,14 +50,14 @@ export function Cart() {
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-md overflow-hidden flex flex-col">
         <SheetHeader className="border-b pb-4">
-          <SheetTitle className="text-2xl font-display">Your Cart</SheetTitle>
+          <SheetTitle className="text-2xl font-display">Giỏ Hàng</SheetTitle>
         </SheetHeader>
         
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center flex-1 py-12">
             <ShoppingCart className="h-16 w-16 text-muted-foreground mb-4" />
-            <p className="text-xl font-medium text-muted-foreground">Your cart is empty</p>
-            <p className="text-sm text-muted-foreground mt-2">Add some beautiful timepieces to get started</p>
+            <p className="text-xl font-medium text-muted-foreground">Giỏ hàng của bạn đang trống</p>
+            <p className="text-sm text-muted-foreground mt-2">Thêm một số sản phẩm đẹp để bắt đầu</p>
           </div>
         ) : (
           <>
@@ -84,7 +84,7 @@ export function Cart() {
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">${item.price.toLocaleString()}</p>
+                      <p className="text-sm text-muted-foreground mt-1">{item.price.toLocaleString()} VNĐ</p>
                       <div className="flex items-center mt-auto pt-2">
                         <div className="flex items-center border rounded-md">
                           <Button
@@ -107,7 +107,7 @@ export function Cart() {
                           </Button>
                         </div>
                         <span className="ml-auto font-medium">
-                          ${(item.price * item.quantity).toLocaleString()}
+                          {(item.price * item.quantity).toLocaleString()} VNĐ
                         </span>
                       </div>
                     </div>
@@ -118,18 +118,18 @@ export function Cart() {
             
             <div className="border-t pt-6 mt-auto space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span>${total.toLocaleString()}</span>
+                <span className="text-muted-foreground">Tạm tính</span>
+                <span>{total.toLocaleString()} VNĐ</span>
               </div>
               <div className="flex items-center justify-between font-medium text-lg">
-                <span>Total</span>
-                <span>${total.toLocaleString()}</span>
+                <span>Tổng cộng</span>
+                <span>{total.toLocaleString()} VNĐ</span>
               </div>
               <Button 
                 className="w-full bg-gold-500 hover:bg-gold-600 text-white h-12 text-base font-medium transition-all"
                 onClick={handleCheckout}
               >
-                Checkout
+                Thanh Toán
               </Button>
             </div>
           </>

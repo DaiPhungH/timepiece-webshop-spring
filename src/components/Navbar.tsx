@@ -27,8 +27,8 @@ const Navbar = () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       toast({
-        title: "Error",
-        description: "Failed to sign out",
+        title: "Lỗi",
+        description: "Không thể đăng xuất",
         variant: "destructive",
       });
     } else {
@@ -40,22 +40,22 @@ const Navbar = () => {
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <a href="/" className="font-display text-2xl">
-          Timepiece
+          Đồng Hồ
         </a>
         <div className="flex items-center gap-8">
-          <a href="/" className="hover:text-gold-500 transition-colors">Home</a>
-          <a href="/browse" className="hover:text-gold-500 transition-colors">Browse</a>
-          <a href="#about" className="hover:text-gold-500 transition-colors">About</a>
+          <a href="/" className="hover:text-gold-500 transition-colors">Trang Chủ</a>
+          <a href="/browse" className="hover:text-gold-500 transition-colors">Sản Phẩm</a>
+          <a href="#about" className="hover:text-gold-500 transition-colors">Giới Thiệu</a>
           {user ? (
             <>
               <Cart />
               <Button variant="outline" onClick={handleSignOut}>
-                Sign Out
+                Đăng Xuất
               </Button>
             </>
           ) : (
             <Button onClick={() => navigate("/auth")}>
-              Sign In
+              Đăng Nhập
             </Button>
           )}
         </div>

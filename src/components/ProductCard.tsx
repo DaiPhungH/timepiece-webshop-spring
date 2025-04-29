@@ -32,7 +32,7 @@ const ProductCard = ({ id, image, name, price }: ProductCardProps) => {
           <Link to={`/product/${id}`} className="hover:text-gold-500 transition-colors">
             <h3 className="font-display text-lg">{name}</h3>
           </Link>
-          <p className="text-gray-600 font-semibold">${price.toLocaleString()}</p>
+          <p className="text-gray-600 font-semibold">{price.toLocaleString()} VNĐ</p>
         </div>
         <Button 
           variant="outline" 
@@ -40,7 +40,7 @@ const ProductCard = ({ id, image, name, price }: ProductCardProps) => {
           onClick={() => addItem(id)}
           disabled={isLoading}
         >
-          {isLoading ? 'Adding...' : 'Add to Cart'}
+          {isLoading ? 'Đang thêm...' : 'Thêm vào giỏ'}
         </Button>
       </CardFooter>
     </Card>
