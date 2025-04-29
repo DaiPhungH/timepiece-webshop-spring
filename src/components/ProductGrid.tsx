@@ -2,14 +2,20 @@
 import { useQuery } from "@tanstack/react-query";
 import ProductCard from "./ProductCard";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 const ProductGrid = () => {
+  const navigate = useNavigate();
+
+  // Fetch products but limit to only 4 for homepage
   const { data: products, isLoading } = useQuery({
-    queryKey: ['products'],
+    queryKey: ['featuredProducts'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('products')
-        .select('*');
+        .select('*')
+        .limit(4);
       
       if (error) throw error;
       return data;
@@ -37,6 +43,14 @@ const ProductGrid = () => {
           {products?.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}
+        </div>
+        <div className="flex justify-center mt-12">
+          <Button 
+            onClick={() => navigate("/browse")} 
+            className="bg-gold-500 hover:bg-gold-600 text-white px-8 py-2"
+          >
+            View All Watches
+          </Button>
         </div>
       </div>
     </section>

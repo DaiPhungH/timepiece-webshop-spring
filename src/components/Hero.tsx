@@ -1,5 +1,6 @@
 
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -13,9 +14,11 @@ const Hero = () => {
           <p className="text-lg mb-8 text-gray-200">
             Discover our collection of luxury timepieces that combine traditional craftsmanship with modern design.
           </p>
-          <Button className="bg-gold-500 hover:bg-gold-600 text-black">
-            Explore Collection
-          </Button>
+          <Link to="/browse">
+            <Button className="bg-gold-500 hover:bg-gold-600 text-black">
+              Explore Collection
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
