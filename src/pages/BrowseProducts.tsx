@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Watch, Grid2X2, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 // Product categories
 const categories = [
@@ -165,15 +165,19 @@ const BrowseProducts = () => {
                     {filteredProducts.map(product => (
                       <div key={product.id} className="flex flex-col md:flex-row border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                         <div className="md:w-64 h-64">
-                          <img 
-                            src={product.image} 
-                            alt={product.name} 
-                            className="w-full h-full object-cover"
-                          />
+                          <Link to={`/product/${product.id}`}>
+                            <img 
+                              src={product.image} 
+                              alt={product.name} 
+                              className="w-full h-full object-cover"
+                            />
+                          </Link>
                         </div>
                         <div className="flex-1 p-6 flex flex-col justify-between">
                           <div>
-                            <h3 className="text-xl font-display mb-2">{product.name}</h3>
+                            <Link to={`/product/${product.id}`}>
+                              <h3 className="text-xl font-display mb-2 hover:text-gold-500 transition-colors">{product.name}</h3>
+                            </Link>
                             <div className="flex items-center mb-4">
                               <span className="mr-2 text-xs px-2 py-1 bg-gray-100 rounded-full">
                                 {product.category}

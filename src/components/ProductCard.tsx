@@ -2,6 +2,7 @@
 import { Card, CardContent, CardFooter } from "./ui/card";
 import { Button } from "./ui/button";
 import { useCart } from "@/hooks/useCart";
+import { Link } from "react-router-dom";
 
 interface ProductCardProps {
   id: string;
@@ -15,18 +16,22 @@ const ProductCard = ({ id, image, name, price }: ProductCardProps) => {
 
   return (
     <Card className="overflow-hidden group flex flex-col h-full transition-shadow hover:shadow-lg">
-      <CardContent className="p-0 flex-grow">
-        <div className="aspect-square overflow-hidden">
-          <img
-            src={image}
-            alt={name}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-      </CardContent>
+      <Link to={`/product/${id}`} className="flex-grow">
+        <CardContent className="p-0 flex-grow">
+          <div className="aspect-square overflow-hidden">
+            <img
+              src={image}
+              alt={name}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+        </CardContent>
+      </Link>
       <CardFooter className="p-4 flex flex-col items-start gap-3">
         <div className="w-full flex justify-between items-center">
-          <h3 className="font-display text-lg">{name}</h3>
+          <Link to={`/product/${id}`} className="hover:text-gold-500 transition-colors">
+            <h3 className="font-display text-lg">{name}</h3>
+          </Link>
           <p className="text-gray-600 font-semibold">${price.toLocaleString()}</p>
         </div>
         <Button 
