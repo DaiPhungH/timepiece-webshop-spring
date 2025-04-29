@@ -21,7 +21,16 @@ import {
   TabsList, 
   TabsTrigger 
 } from "@/components/ui/tabs";
-import { Eye, ChevronRight } from "lucide-react";
+import { Eye, ChevronRight, ImageIcon } from "lucide-react";
+import { 
+  Carousel,
+  CarouselContent, 
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from "@/components/ui/carousel";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface Product {
   id: string;
@@ -112,10 +121,12 @@ const ProductDetail = () => {
   }
 
   // Generate additional showcase images (in a real app, these would come from the database)
-  const additionalImages = [
+  const productImages = [
     product.image,
     "https://images.unsplash.com/photo-1526045431048-f857369baa09?q=80",
-    "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?q=80"
+    "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?q=80",
+    "https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?q=80",
+    "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80"
   ];
 
   return (
@@ -145,27 +156,66 @@ const ProductDetail = () => {
 
         {/* Product Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Product Images */}
-          <div className="space-y-4">
-            <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-              <img
-                src={selectedImage}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
+          {/* Product Images Section */}
+          <div className="space-y-6">
+            {/* Main Image Display */}
+            <div className="bg-gray-100 rounded-lg overflow-hidden">
+              <AspectRatio ratio={1/1}>
+                <img
+                  src={selectedImage}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
+              </AspectRatio>
             </div>
-            <div className="grid grid-cols-3 gap-4">
-              {additionalImages.map((img, index) => (
-                <button
-                  key={index}
-                  className={`aspect-square rounded-md overflow-hidden border-2 transition-all ${
-                    selectedImage === img ? "border-gold-500" : "border-transparent hover:border-gray-300"
-                  }`}
-                  onClick={() => setSelectedImage(img)}
-                >
-                  <img src={img} alt={`${product.name} view ${index + 1}`} className="w-full h-full object-cover" />
-                </button>
-              ))}
+            
+            {/* Image Carousel */}
+            <div className="relative">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {productImages.map((img, index) => (
+                    <CarouselItem key={index} className="basis-1/4 md:basis-1/5">
+                      <button
+                        onClick={() => setSelectedImage(img)}
+                        className={`w-full rounded-md overflow-hidden transition-all ${
+                          selectedImage === img ? "ring-2 ring-gold-500" : "hover:opacity-80"
+                        }`}
+                      >
+                        <AspectRatio ratio={1/1}>
+                          <img 
+                            src={img} 
+                            alt={`${product.name} view ${index + 1}`} 
+                            className="w-full h-full object-cover"
+                          />
+                        </AspectRatio>
+                      </button>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-0 opacity-70 hover:opacity-100" />
+                <CarouselNext className="right-0 opacity-70 hover:opacity-100" />
+              </Carousel>
+            </div>
+            
+            {/* Expanded View Button */}
+            <div className="flex justify-center">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <ImageIcon className="h-4 w-4" />
+                    View Fullscreen
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-screen max-w-[90vw] p-0" align="center">
+                  <div className="p-1">
+                    <img
+                      src={selectedImage}
+                      alt={product.name}
+                      className="max-h-[80vh] object-contain"
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
